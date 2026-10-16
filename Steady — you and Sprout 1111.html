@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Steady — you and Sprout</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1024;--card:#171a3a;--ink:#eef0ff;--mute:#9aa0d0;--line:#2a2f66;--p:#5eead4;--pd:#2bb8a3;--dusk:#a78bfa;--dk:#0b1030;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f3ff;--card:#fff;--ink:#1c1b3a;--mute:#5f6394;--line:#dcdaf5;--p:#0f9f8e;--pd:#0a7b6d;--dusk:#6d4fe0;--dk:#fff}}
+:root[data-theme="light"]{--bg:#f4f3ff;--card:#fff;--ink:#1c1b3a;--mute:#5f6394;--line:#dcdaf5;--p:#0f9f8e;--pd:#0a7b6d;--dusk:#6d4fe0;--dk:#fff}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:radial-gradient(600px 420px at 95% -8%,var(--g1),transparent),radial-gradient(520px 420px at -10% 8%,var(--g2),transparent),var(--bg) fixed;color:var(--ink);font:500 16px/1.5 "DM Sans",system-ui,sans-serif;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+main{max-width:560px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;gap:8px;font-weight:900}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:4px 12px}
+.hero{text-align:center;margin:8px 0 18px}
+.say{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 16px;margin:0 auto 10px;max-width:400px;font-weight:800}
+.mas{width:130px;height:130px}
+.mas.pop{animation:pop .5s}@keyframes pop{40%{transform:scale(1.15) rotate(-5deg)}}
+@media(prefers-reduced-motion:reduce){.mas.pop{animation:none}}
+h2{margin:22px 0 8px;font-size:20px;font-weight:900}
+.h{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--line);border-bottom-width:5px;border-radius:16px;padding:12px 14px;margin-bottom:10px;width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.h.on{border-color:var(--p);background:color-mix(in srgb,var(--p) 14%,var(--card))}
+.ck{width:32px;height:32px;border-radius:50%;border:3px solid var(--line);flex:none;display:grid;place-items:center;color:var(--dk);font-weight:900}
+.on .ck{background:var(--p);border-color:var(--p)}
+.h small{display:block;color:var(--mute);font-weight:600}
+.btn{font:inherit;font-weight:900;border:0;border-bottom:5px solid var(--pd);border-radius:14px;padding:12px 20px;background:var(--p);color:var(--dk);cursor:pointer}
+.btn:active{transform:translateY(3px);border-bottom-width:2px}
+.btn.alt{background:var(--dusk);border-color:#3f3fa8;color:#fff}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);border-bottom-width:5px}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+:focus-visible{outline:3px solid var(--dusk);outline-offset:2px}
+.row{display:flex;gap:8px}
+.tab{display:none}.tab.on{display:block}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;border:0;font:inherit;font-weight:800;color:var(--mute);padding:10px 0;cursor:pointer;font-size:13px}
+nav button.on{color:var(--p)}nav b{display:block;font-size:24px}
+.chat{display:flex;flex-direction:column;gap:8px;min-height:40vh}
+.m{max-width:85%;padding:10px 14px;border-radius:18px;white-space:pre-wrap}
+.m.u{align-self:flex-end;background:var(--p);color:var(--dk)}.m.b{align-self:flex-start;background:var(--card);border:2px solid var(--line)}
+.solo{background:color-mix(in srgb,var(--dusk) 14%,var(--card));border:2px solid var(--dusk);border-radius:18px;padding:16px;text-align:center}
+.clock{font-size:46px;font-weight:900;color:var(--dusk)}
+.st{display:flex;gap:10px;padding:8px 0;border-top:2px solid var(--line)}.st input{width:22px;height:22px;accent-color:var(--p);flex:none}
+.st span{display:block;color:var(--mute);font-weight:600;font-size:14px}
+.hide{display:none}
+.btn{border:0!important;box-shadow:0 4px 0 var(--pd),0 10px 24px #0004;background:linear-gradient(135deg,var(--p),#7dd3fc)}
+.btn:active{box-shadow:0 1px 0 var(--pd)}
+.btn.alt{background:linear-gradient(135deg,#8b5cf6,#d946ef);box-shadow:0 4px 0 #5b3fd4,0 10px 24px #0004;color:#fff}
+.btn.ghost{background:var(--card);box-shadow:none;border:2px solid var(--line)!important;color:var(--ink)}
+.mas{filter:drop-shadow(0 8px 22px #8b5cf699)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.bd{width:52px;height:52px;border-radius:16px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-size:26px;filter:grayscale(1);opacity:.4}.bd.on{filter:none;opacity:1;border-color:var(--p);box-shadow:0 0 16px #5eead466}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gc{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px 10px;text-align:center;font:inherit;color:inherit;cursor:pointer;font-weight:700}.gc b{display:block;font-size:32px}.gc small{display:block;color:var(--mute);font-weight:500}
+.arena{margin-top:14px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;text-align:center}
+.opt{display:block;width:100%;margin:8px 0;text-align:left}.opt.ok{border-color:var(--p)!important;background:#5eead433}.opt.no{border-color:#f87171!important;background:#f8717133}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:260px;margin:14px auto}.pad{height:90px;border-radius:18px;border:0;opacity:.4;cursor:pointer}.pad.lit{opacity:1;box-shadow:0 0 26px currentColor}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-30px)}60%{transform:translateY(0)}75%{transform:translateY(-9px)}}
+@keyframes flame{0%,100%{transform:scale(1) rotate(-5deg)}50%{transform:scale(1.28) rotate(6deg)}}
+@keyframes float{0%{transform:translateY(0);opacity:0}20%{opacity:.9}100%{transform:translateY(-150px);opacity:0}}
+@keyframes conf{to{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+.mas{animation:bob 2.4s ease-in-out infinite}.mas.pop{animation:hop .8s,bob 2.4s ease-in-out .8s infinite}
+.mas .lf{transform-origin:60px 16px;animation:sway 3s ease-in-out infinite}
+.mas .ey{transform-box:fill-box;transform-origin:center;animation:blink 4s infinite}
+.fl{display:inline-block;animation:flame 1s ease-in-out infinite}
+.hero{position:relative}.sp{position:absolute;bottom:10px;font-size:16px;pointer-events:none;animation:float 5s linear infinite}
+.cf{position:fixed;width:9px;height:9px;border-radius:2px;pointer-events:none;z-index:9;animation:conf 1s ease-out forwards}
+.gc,.solo,.arena{animation:rise .4s both}
+nav button.on b{animation:bob 1.4s ease-in-out infinite}nav b{font-size:21px}nav button{font-size:11px}
+.mood{display:flex;gap:8px;justify-content:center;margin:8px 0}.mood button{font-size:26px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:4px 10px;cursor:pointer}.mood button.on{border-color:var(--p);transform:scale(1.15)}
+.path{display:flex;flex-direction:column;gap:14px;margin:10px 0 22px}.pn{display:flex;align-items:center;gap:12px;font-weight:700}
+.nd{width:64px;height:64px;border-radius:50%;border:0;font-size:24px;cursor:pointer;background:var(--card);color:var(--ink);box-shadow:0 5px 0 var(--line)}
+.nd.dn{background:var(--p);color:var(--dk);box-shadow:0 5px 0 var(--pd)}.nd.cur{background:linear-gradient(135deg,#8b5cf6,#d946ef);color:#fff;box-shadow:0 5px 0 #5b3fd4;animation:bob 1.6s ease-in-out infinite}.nd.lk{opacity:.4;cursor:not-allowed}
+label.l{display:block;font-size:13px;color:var(--mute);margin-bottom:4px}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important}}
+:root{--p2:#7dd3fc;--a1:#8b5cf6;--a2:#d946ef;--ash:#5b3fd4;--g1:#7c3aed44;--g2:#14b8a633}
+:root[data-theme="purple"]{--bg:#120c24;--card:#1c1338;--ink:#f3edff;--mute:#b3a3dc;--line:#35256b;--p:#b794ff;--pd:#8256e0;--p2:#e0c3ff;--dusk:#c4a8ff;--a1:#7c3aed;--a2:#c084fc;--ash:#5b21b6;--dk:#120c24;--g1:#7c3aed44;--g2:#c084fc22}
+:root[data-theme="black"]{--bg:#000;--card:#111;--ink:#f5f5f5;--mute:#a3a3a3;--line:#262626;--p:#e5e5e5;--pd:#8a8a8a;--p2:#ffffff;--dusk:#d4d4d4;--a1:#404040;--a2:#737373;--ash:#171717;--dk:#000;--g1:#ffffff12;--g2:#ffffff08}
+:root[data-theme="white"]{--bg:#fafafa;--card:#fff;--ink:#171717;--mute:#666;--line:#e4e4e7;--p:#171717;--pd:#000;--p2:#52525b;--dusk:#3f3f46;--a1:#27272a;--a2:#52525b;--ash:#000;--dk:#fff;--g1:#00000010;--g2:#00000008}
+:root[data-theme="red"]{--bg:#1a0a0d;--card:#2a1116;--ink:#ffeef0;--mute:#d59aa4;--line:#4b1e28;--p:#ff5d73;--pd:#c93a50;--p2:#ffb199;--dusk:#ff8fa0;--a1:#e11d48;--a2:#fb7185;--ash:#9f1239;--dk:#1a0a0d;--g1:#e11d4855;--g2:#fb718522}
+:root[data-theme="blue"]{--bg:#08121f;--card:#0f2137;--ink:#eaf4ff;--mute:#8fb0d0;--line:#1c3a5c;--p:#4cc2ff;--pd:#1f8fd0;--p2:#8be9ff;--dusk:#7aa2ff;--a1:#2563eb;--a2:#60a5fa;--ash:#1e40af;--dk:#06121f;--g1:#2563eb55;--g2:#4cc2ff22}
+:root[data-theme="pink"]{--bg:#1c0d18;--card:#2b1226;--ink:#ffeefa;--mute:#d9a3c6;--line:#4d1f42;--p:#ff7ac6;--pd:#d24d9c;--p2:#ffc2e6;--dusk:#f0a6ff;--a1:#db2777;--a2:#f472b6;--ash:#9d174d;--dk:#1c0d18;--g1:#db277755;--g2:#f472b622}
+.btn{background:linear-gradient(135deg,var(--p),var(--p2))}
+.btn.alt{background:linear-gradient(135deg,var(--a1),var(--a2));box-shadow:0 4px 0 var(--ash),0 10px 24px #0004;color:#fff}
+.nd.cur{background:linear-gradient(135deg,var(--a1),var(--a2));box-shadow:0 5px 0 var(--ash)}
+.opt.ok{background:color-mix(in srgb,var(--p) 22%,transparent)}
+.mas{filter:drop-shadow(0 8px 22px color-mix(in srgb,var(--a1) 55%,transparent))}
+h2,h3,.clock,.say,h1{font-family:Fraunces,Georgia,serif}
+.h,.gc{border-bottom-width:2px}
+.pb{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:10px 0 6px}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2))}
+.ov{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:24px 18px}
+.sw{display:flex;gap:10px;flex-wrap:wrap}.sw button{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);cursor:pointer}.sw button.on{border-color:var(--ink);transform:scale(1.12)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chips button{font:inherit;font-weight:700;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;padding:8px 16px;cursor:pointer}.chips button.on{border-color:var(--p);background:color-mix(in srgb,var(--p) 18%,var(--card))}
+.breath{width:120px;height:120px;border-radius:50%;margin:8px auto 14px;background:radial-gradient(circle,var(--a2),var(--a1));opacity:.85}
+.tp li{margin:6px 0;color:var(--mute)}
+@keyframes flap{0%,100%{transform:rotate(10deg)}50%{transform:rotate(-26deg)}}
+@keyframes wag{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes puff{0%{opacity:0;transform:scale(.3)}35%{opacity:1}100%{opacity:0;transform:scale(1.35)}}
+.mas{width:140px;height:auto}
+#mas{position:relative;height:190px;margin:0 auto;max-width:420px}
+#dw{position:absolute;left:0;top:30px;width:140px;transition:transform 3.6s ease-in-out}
+#flip{transform-box:view-box;transform-origin:center;transition:transform .4s}
+.wg{transform-box:fill-box;transform-origin:15% 95%;animation:flap .7s ease-in-out infinite}
+.tl{transform-box:fill-box;transform-origin:100% 60%;animation:wag 1.6s ease-in-out infinite}
+#masv .mh,#masv .mm,#masv .ms,#masv .es,#masv .fr{display:none}
+#masv[data-m=happy] .mh,#masv[data-m=meh] .mm,#masv[data-m=sad] .ms,#masv[data-m=sleep] .es{display:inline}
+#masv[data-m=sleep] .eo{display:none}
+#masv.fire .fr{display:inline;transform-box:fill-box;transform-origin:0 50%;animation:puff 1.1s ease-out}
+#dw{position:fixed;left:0;top:0;width:110px;z-index:8;pointer-events:none;transition:transform 4s ease-in-out}
+.mas{width:110px;height:auto}
+#mas{height:110px}
+.mas{width:130px;height:130px}#mas{height:auto}
+body.typing #dw{display:none}
+</style>
+</head><body><main>
+<div class="top"><span id="brand" style="font:600 20px Fraunces,Georgia,serif;display:flex;align-items:center;gap:8px"></span><span class="pill"><span class="fl">🔥</span> <span id="streak">0</span></span><span class="pill" title="Streak freezes">❄️ <span id="fz">1</span></span><span class="pill">⭐ Level <span id="lvl">1</span></span></div>
+
+<button class="btn ghost hide" id="bk" style="margin-top:10px">← More</button>
+<div class="tab on" id="t-today">
+  <div class="hero"><div class="say" id="say"></div><span class="sp" style="left:14%">✨</span><span class="sp" style="left:80%;animation-delay:1.7s">⭐</span><span class="sp" style="left:30%;animation-delay:3.2s">💫</span><span class="sp" style="left:64%;animation-delay:.8s">✨</span><div id="mas"></div></div><p style="margin:6px 0 0;color:var(--mute);text-align:center">How are you feeling?</p><div class="mood" id="mood"><button data-m="😄" aria-label="Great">😄</button><button data-m="🙂" aria-label="Good">🙂</button><button data-m="😐" aria-label="Okay">😐</button><button data-m="😔" aria-label="Low">😔</button><button data-m="😫" aria-label="Stressed">😫</button></div><div id="mr" style="color:var(--mute);text-align:center;margin-bottom:10px"></div><div style="text-align:center"><button class="btn ghost" id="mv">Motivate me</button></div>
+  <div class="pill" id="nx" style="display:none;margin:14px 0 0;font-weight:700"></div><h2>Today's habits</h2><div id="list"></div>
+  <div class="row"><input type="text" id="new" maxlength="50" placeholder="New habit" aria-label="New habit"><input type="time" id="ht" aria-label="Optional reminder time" style="width:130px"><button class="btn" id="add">Add</button></div>
+  <h2>Alone time</h2>
+  <div class="solo"><div class="clock" id="clock">05:00</div>
+    <div class="row" style="margin:10px 0 0"><select id="mins" aria-label="Minutes"><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option></select><button class="btn alt" id="go">Start</button></div>
+    <p style="margin:10px 0 0;color:var(--mute)">No phone, music or screens. Just you. Sprout will ask how it felt.</p></div>
+  <h2>Badges</h2><div class="badges" id="bds"></div>
+  
+</div>
+
+<div class="tab" id="t-buddy">
+  <h2 style="margin-top:8px">Chat with Sprout</h2>
+  <p style="color:var(--mute);margin:0 0 12px">Talk about anything: life, money, work, feelings. Sprout is an AI, not a therapist, and only knows what this app tells it.</p>
+  <div class="chat" id="chat"></div>
+  <div class="row" style="margin-top:12px"><input type="text" id="msg" placeholder="Talk to Sprout" aria-label="Message"><button class="btn" id="send">Send</button></div>
+  <p id="nochat" class="hide" style="color:var(--mute)">Chat isn't available in this view. Open this page in Claude to talk to Sprout.</p>
+</div>
+
+<div class="tab" id="t-safe">
+  <h2 style="margin-top:8px">Safe space</h2>
+  <p style="color:var(--mute)">This is yours. Journal entries stay on this device. Sprout only sees what you send in chat.</p>
+  <div class="solo"><div class="breath" id="br"></div><div class="clock" style="font-size:24px" id="bt">Ready when you are</div><div style="margin-top:12px"><button class="btn alt" id="bs">Breathe with me</button></div></div>
+  <h2>Journal</h2>
+  <p id="jq" style="color:var(--dusk);font-weight:700;margin:0 0 8px"></p>
+  <textarea id="jt" rows="3" placeholder="What is on your mind? Write freely." aria-label="Journal entry"></textarea>
+  <div class="row" style="margin-top:8px"><button class="btn" id="js">Save entry</button><button class="btn ghost" id="jp">Give me a prompt</button></div><div id="jl"></div>
+  <h2>When it feels like too much</h2>
+  <div class="arena" style="text-align:left"><b>5-4-3-2-1 grounding</b><br>Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell and 1 you can taste. Breathe slowly between each.</div>
+  <div class="arena" style="text-align:left;margin-top:10px">Sprout is an AI, not a therapist. If you feel unsafe or might hurt yourself, contact your local emergency number or someone you trust right now.</div>
+  <h2>How Sprout earns your trust</h2>
+  <ul class="tp" style="padding-left:20px;margin:0 0 14px"><li>Your habits, journal and savings are stored on this device, not on a server.</li><li>Sprout sees only what the app shares in chat. Your savings are hidden unless you allow it.</li><li>Sprout will tell you honestly when it does not know, and it will not judge you.</li><li>It cannot see your phone, messages or bank accounts.</li></ul>
+  <button class="btn ghost" id="er">Erase all my data</button>
+</div>
+<div class="tab" id="t-money">
+  <h2 style="margin-top:8px">Savings</h2>
+  <p style="color:var(--mute)">A private tracker for money you set aside. It does not hold or move real money, so never enter card or bank numbers.</p>
+  <div class="row" style="align-items:center"><select id="cur" aria-label="Currency" style="width:90px"><option>$</option><option>€</option><option>£</option><option>₦</option><option>₹</option><option>R</option></select><label style="display:flex;gap:8px;align-items:center;font-size:14px"><input type="checkbox" id="shr" style="width:20px;height:20px;accent-color:var(--p)">Let Sprout see my savings progress</label></div>
+  <div class="say" id="tot" style="margin:14px 0"></div>
+  <div id="goals"></div>
+  <div class="row"><input type="text" id="gn" maxlength="40" placeholder="Goal, e.g. Emergency fund" aria-label="Goal name"><input type="text" inputmode="decimal" id="gt" placeholder="Target" aria-label="Target amount" style="width:110px"><button class="btn" id="ga">Add</button></div>
+</div>
+<div class="tab" id="t-more">
+  <h2 style="margin-top:8px">More</h2>
+  <div class="gg"><button class="gc" data-go="plan"><b>📅</b>Plan<small>Sleep and free time</small></button><button class="gc" data-go="games"><b>🧠</b>Mind gym<small>Games and puzzles</small></button><button class="gc" data-go="shield"><b>🛡️</b>Phone shield<small>Set up protection</small></button><button class="gc" data-go="style"><b>🎨</b>Style<small>Theme and Sprout</small></button></div>
+</div>
+<div class="tab" id="t-style">
+  <h2 style="margin-top:8px">Style</h2>
+  <div id="ss"><div id="setbox">
+  <p style="color:var(--mute);margin:0 0 8px">Theme</p>
+  <div class="sw" id="sw"><button data-th="white" style="background:#fafafa" aria-label="White"></button><button data-th="black" style="background:#000" aria-label="Black"></button><button data-th="red" style="background:#e11d48" aria-label="Red"></button><button data-th="blue" style="background:#2563eb" aria-label="Blue"></button><button data-th="pink" style="background:#db2777" aria-label="Pink"></button><button data-th="purple" style="background:#7c3aed" aria-label="Purple"></button></div>
+  <p style="color:var(--mute);margin:20px 0 8px">Which voice would you like Sprout to have as your friend? Sprout is an AI friend and coach, never a romantic partner.</p>
+  <div class="chips" id="pv"><button data-v="feminine">Feminine</button><button data-v="masculine">Masculine</button><button data-v="neutral">Neutral</button></div>
+  <p style="color:var(--mute);margin:20px 0 8px">How should Sprout talk to you?</p>
+  <div class="chips" id="tn"><button data-t="gentle">Gentle</button><button data-t="direct">Direct</button><button data-t="playful">Playful</button></div>
+  </div></div>
+</div>
+<div class="tab" id="t-learn">
+  <h2 style="margin-top:8px">Learn tech skills</h2>
+  <p style="color:var(--mute);margin:0">One short lesson a day builds real skills and real discipline.</p>
+  <div id="cl"></div><div class="arena hide" id="la"></div>
+</div>
+<div class="tab" id="t-plan">
+  <h2 style="margin-top:8px">Sleep</h2>
+  <div class="row"><div style="flex:1"><label class="l" for="bed">Bedtime</label><input type="time" id="bed"></div><div style="flex:1"><label class="l" for="wake">Wake up</label><input type="time" id="wake"></div></div>
+  <p id="sl" style="color:var(--mute)">Set your times. Sprout will remind you to wind down 45 minutes before bed.</p>
+  <h2>Free-time plan</h2>
+  <p style="color:var(--mute);margin:0 0 8px">When are you free? Sprout builds a plan.</p>
+  <div class="row"><input type="time" id="f1" value="16:00" aria-label="Free from"><input type="time" id="f2" value="18:00" aria-label="Free until"><button class="btn" id="mk">Plan it</button></div>
+  <div class="arena hide" id="plan" style="text-align:left;white-space:pre-wrap"></div>
+  <h2>Reminders</h2>
+  <p style="color:var(--mute);margin:0 0 8px">Saves your habit times and bedtime as daily alerts in your phone calendar.</p>
+  <div class="row"><input type="time" id="rt" value="20:00" aria-label="Daily nudge time"><button class="btn ghost" id="rem" style="white-space:nowrap">Save reminders</button></div><p id="rmsg" style="color:var(--mute)"></p>
+</div>
+<div class="tab" id="t-games">
+  <h2 style="margin-top:8px">Mind gym</h2>
+  <p style="color:var(--mute);margin:0 0 12px">Short workouts for focus, memory and self-control. Each one earns XP and keeps your streak alive.</p>
+  <div class="gg"><button class="gc" data-g="quiz"><b>🎯</b>Brain quiz<small>5 questions</small></button><button class="gc" data-g="mem"><b>🔁</b>Memory chain<small>Repeat the pattern</small></button><button class="gc" data-g="math"><b>⚡</b>Math sprint<small>30 seconds</small></button><button class="gc" data-g="word"><b>🔤</b>Word scramble<small>5 words</small></button></div>
+  <div class="arena hide" id="arena"></div>
+</div>
+<div class="tab" id="t-shield">
+  <h2 style="margin-top:8px">Phone shield</h2>
+  <p style="color:var(--mute)">A web page can't lock your phone. These settings can. Tick each once done, and give the passcode to someone you trust.</p>
+  <label class="st"><input type="checkbox" data-c="dns"><div><b>Safe DNS filter</b><span>Android: Settings, Network, Private DNS, family.cloudflare-dns.com. iPhone: install a filter profile (e.g. CleanBrowsing).</span></div></label>
+  <label class="st"><input type="checkbox" data-c="ios"><div><b>iPhone Screen Time</b><span>Content & Privacy Restrictions, Web Content, Limit Adult Websites, plus a passcode.</span></div></label>
+  <label class="st"><input type="checkbox" data-c="and"><div><b>Android Family Link</b><span>SafeSearch, site filtering and app-install limits.</span></div></label>
+  <label class="st"><input type="checkbox" data-c="pass"><div><b>Passcode with a trusted person</b><span>The delay is what protects you.</span></div></label>
+  <label class="st"><input type="checkbox" data-c="bed"><div><b>Phone charges outside the bedroom</b><span>Late nights are the riskiest time.</span></div></label>
+  <div style="margin-top:14px"><input type="text" id="partner" maxlength="40" placeholder="A trusted person who knows your difficulties" aria-label="A trusted person who knows your difficulties"></div>
+  <div class="solo" style="margin-top:18px">
+    <button class="btn alt" id="ub">I have an urge</button>
+    <div id="ubox" class="hide"><div class="clock" id="uc">10:00</div><p>It peaks and fades. Leave the room, move your body, or text <span id="pn">someone you trust</span>.</p><button class="btn" id="ud">I got through it</button></div>
+    <p id="uct" style="color:var(--mute);margin:8px 0 0"></p></div>
+</div>
+</main>
+<div class="ov hide" id="ob"><div style="max-width:560px;margin:0 auto"><h1 style="margin:8px 0">Welcome to Steady</h1><p style="color:var(--mute)">A calm place to build habits, look after yourself and save toward what matters. What you write here stays on this device. Let us set it up your way.</p><div id="obs"></div><button class="btn" id="obgo" style="width:100%;margin-top:22px">Begin</button></div></div>
+<nav><button class="on" data-tab="today"><b>🏠</b>Today</button><button data-tab="learn"><b>🎓</b>Learn</button><button data-tab="buddy"><b>💬</b>Sprout</button><button data-tab="safe"><b>🕊️</b>Safe</button><button data-tab="money"><b>💰</b>Savings</button><button data-tab="more"><b>⋯</b>More</button></nav>
+<script>
+const K="steady-v2",$=id=>document.getElementById(id);
+const lk=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const day=n=>{const d=new Date();d.setDate(d.getDate()-n);return lk(d)},T=()=>day(0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+let S={habits:[{id:"a",name:"Wake up on time",done:[]},{id:"b",name:"Move for 20 minutes",done:[]}],solo:[],c:[],partner:"",urges:0,chat:[]};
+try{const r=localStorage.getItem(K);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const all=()=>S.habits.map(h=>h.done);
+const counted=d=>all().some(a=>a.includes(d))||S.solo.some(x=>x.date===d)||(S.g||[]).some(x=>x.date===d)||(S.frozen||[]).includes(d);
+const streak=()=>{let n=0,i=counted(T())?0:1;while(counted(day(i))){n++;i++}return n};
+function mascot(m){const eye=m==="sleep"?'<path d="M34 58q8 6 16 0M70 58q8 6 16 0" stroke="#1d2b28" stroke-width="3" fill="none"/>':m==="sad"?'<circle cx="42" cy="58" r="6"/><circle cx="78" cy="58" r="6"/><path d="M34 46l14 4M86 46l-14 4" stroke="#1d2b28" stroke-width="3"/>':'<circle cx="42" cy="58" r="7"/><circle cx="78" cy="58" r="7"/><circle cx="44" cy="55" r="2.5" fill="#fff"/><circle cx="80" cy="55" r="2.5" fill="#fff"/>';
+const mouth={sleep:'M52 84q8 6 16 0',happy:'M48 78q12 14 24 0',sad:'M48 88q12-12 24 0',meh:'M50 82h20'}[m];
+return '<svg class="mas" id="masv" viewBox="0 0 120 120" role="img" aria-label="Sprout the mascot"><g class="lf"><path d="M60 14c-4-10-18-10-22-4 10 0 16 2 22 4zM60 14c4-10 18-10 22-4-10 0-16 2-22 4z" style="fill:var(--p)"/></g><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--a1)"/><stop offset="1" style="stop-color:var(--p)"/></linearGradient></defs><circle cx="60" cy="66" r="46" fill="url(#g)"/><ellipse cx="60" cy="84" rx="26" ry="20" fill="#fff" opacity=".4"/><g fill="#1d2b28" class="ey">'+eye+'</g><path d="'+mouth+'" fill="none" stroke="#1d2b28" stroke-width="4" stroke-linecap="round"/></svg>'}
+function say(){const bw=bedState();if(bw==="wind")return["sleep","Wind-down time. Phone away, lights low. Sleep is a habit too. 😴"];if(bw==="asleep")return["sleep","Zzz... it is sleep time. Rest well and we will win tomorrow."];const t=T(),d=S.habits.filter(h=>h.done.includes(t)).length,n=S.habits.length,s=streak(),h=new Date().getHours();
+ if(n&&d===n)return["happy","You showed up for everything today. That is real discipline."];
+ if(d>0)return["happy","A good start. Keep going, one thing at a time."];
+ if(s>0&&h>=18)return["sad","Your "+s+"-day streak is still yours tonight. One small action keeps it."];
+ if(s>0)return["meh","Your "+s+"-day streak is waiting on you today. Start small."];
+ return["meh","Welcome. Pick one small habit and begin. That is enough."]}
+function render(){const t=T(),[m,msg]=say();
+ $("streak").textContent=streak();
+ const xp=S.habits.reduce((a,h)=>a+h.done.length,0)*10+S.solo.length*25+(S.g||[]).reduce((a,x)=>a+x.xp,0);window.XP=xp;$("lvl").textContent=Math.floor(xp/100)+1;
+ $("say").textContent=msg;$("mas").innerHTML=mascot(m);
+ $("list").innerHTML=S.habits.map(h=>{const on=h.done.includes(t);return '<button class="h '+(on?'on':'')+'" data-t="'+h.id+'" aria-pressed="'+on+'"><span class="ck">'+(on?'✓':'')+'</span><span style="flex:1"><b>'+esc(h.name)+'</b><small>'+(h.time?'⏰ '+h.time+' · ':'')+h.done.length+' days done</small></span><span data-x="'+h.id+'" role="button" aria-label="Delete" style="color:var(--mute)">✕</span></button>'}).join("")||'<p style="color:var(--mute)">No quests yet. Add your first one below.</p>';
+ if(!tm)$("clock").textContent=fmt($("mins").value*60);
+ $("uct").textContent=S.urges?S.urges+" urge"+(S.urges>1?"s":"")+" beaten":"";$("pn").textContent=S.partner.trim()||"someone you trust";extra()}
+$("list").onclick=e=>{const x=e.target.dataset.x;if(x){S.habits=S.habits.filter(h=>h.id!==x)}else{const b=e.target.closest("[data-t]");if(!b)return;const h=S.habits.find(h=>h.id===b.dataset.t),t=T();const was=h.done.includes(t);h.done=was?h.done.filter(d=>d!==t):[...h.done,t];if(!was){render();const v=$("masv");v&&v.classList.add("pop");burst();save();return}}save();render()};
+$("add").onclick=()=>{const v=$("new").value.trim();if(!v)return;S.habits.push({id:"h"+Date.now(),name:v,done:[],time:$("ht").value||""});$("new").value="";$("ht").value="";save();render()};
+$("new").onkeydown=e=>{if(e.key==="Enter")$("add").click()};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button,.tab").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("t-"+b.dataset.tab).classList.add("on")});
+let tm=null,end=0,tot=0;
+$("mins").onchange=render;
+$("go").onclick=()=>{if(tm){clearInterval(tm);tm=null;$("go").textContent="Start";render();return}
+ tot=$("mins").value*60;end=Date.now()+tot*1e3;$("go").textContent="Stop";
+ tm=setInterval(()=>{const l=Math.max(0,Math.round((end-Date.now())/1e3));$("clock").textContent=fmt(l);if(!l){clearInterval(tm);tm=null;$("go").textContent="Start";S.solo.push({date:T(),min:tot/60});save();render();document.querySelector('nav [data-tab=buddy]').click();ask("I just finished "+tot/60+" minutes alone with no phone. Ask me how it felt.")}},500)};
+document.querySelectorAll(".st input").forEach(i=>{i.checked=S.c.includes(i.dataset.c);i.onchange=()=>{S.c=S.c.filter(x=>x!==i.dataset.c);if(i.checked)S.c.push(i.dataset.c);save()}});
+$("partner").value=S.partner;$("partner").oninput=()=>{S.partner=$("partner").value;save();render()};
+let ut=null,ue=0;
+$("ub").onclick=()=>{$("ub").classList.add("hide");$("ubox").classList.remove("hide");ue=Date.now()+6e5;const f=()=>{const l=Math.max(0,Math.round((ue-Date.now())/1e3));$("uc").textContent=fmt(l);if(!l)clearInterval(ut)};f();ut=setInterval(f,500)};
+$("ud").onclick=()=>{clearInterval(ut);S.urges++;save();$("ubox").classList.add("hide");$("ub").classList.remove("hide");render()};
+// Sprout chat
+let sample=null;
+const sampleP=(async()=>{try{if(window.claude)sample=await claude.use("sample")}catch(e){}return sample})();
+sampleP.then(f=>{if(!f)$("nochat").classList.remove("hide")});
+function paint(){$("chat").innerHTML=(S.chat.length?S.chat:[{r:"b",t:"Hey! I'm Sprout. This is a private space, so you can say what is really on your mind. How are you doing today?"}]).map(m=>'<div class="m '+m.r+'">'+esc(m.t)+'</div>').join("")}
+function ctx(){const t=T();return "You are Sprout, a calm, warm, mature and honest friend and coach inside a habit app. Talk casually and briefly (2-5 sentences). Notice how they feel, reflect it back, and adapt your advice to their mood and situation. Listen first: reflect what you hear, validate feelings without endorsing harmful choices, and ask at most one open question. You are an AI, not a therapist, and never diagnose. Keep the friendship platonic and kindly decline any romantic role. Speak with a "+persona()+" voice and a "+(TN[S.tone]||"gentle")+" tone. Answer personal, business and life questions with practical advice, including what to do and what to avoid. Be honest, not flattering: name risks and disagree kindly. Encourage real friendships and family, and never present yourself as their only support. If someone seems in serious distress or danger, encourage them to contact someone they trust or a local emergency or crisis service. You only know what this app data says, not their phone. App data: habits "+JSON.stringify(S.habits.map(h=>({name:h.name,doneToday:h.done.includes(t),daysDone:h.done.length})))+"; streak "+streak()+" days; solo sessions "+JSON.stringify(S.solo.slice(-5))+"; urges beaten "+S.urges+"; mind games played "+(S.g||[]).length+"; savings "+(S.share?money():"not shared")+"; mood today "+(S.mood[T()]||"unknown")+"; bedtime "+(S.bed||"not set")+"; tech lessons done "+JSON.stringify(S.learn)+"; time now "+new Date().toLocaleTimeString()+".\n\n"}
+async function ask(text){S.chat.push({r:"u",t:text},{r:"b",t:"Sprout is thinking..."});paint();save();
+ const f=sample||await sampleP;
+ if(!f){S.chat[S.chat.length-1].t="I can't reach my AI from this view. Open Steady from the link inside your Claude chat, not a copied link or another browser, then message me again.";save();paint();return}
+ let turns=S.chat.slice(0,-1).slice(-12).map(m=>({role:m.r==="u"?"user":"assistant",content:m.t}));while(turns.length&&turns[0].role!=="user")turns.shift();
+ turns[0]={role:"user",content:ctx()+turns[0].content};
+ try{const r=await f(turns,{cache:false,modelTier:"quick",onText:({text})=>{S.chat[S.chat.length-1].t=text;paint()}});S.chat[S.chat.length-1].t=r.text}
+ catch(e){const c=e&&e.code;S.chat[S.chat.length-1].t=(e&&e.text)||(c==="not_granted"?"I need your permission to chat. Send your message again and choose Allow in the box that appears.":c==="rate_limited"?"Too many messages at once. Wait a moment and try again.":"Something went wrong on my side ("+(c||"unknown")+"). Please try again.")}
+ save();paint()}
+$("send").onclick=()=>{const v=$("msg").value.trim();if(!v)return;$("msg").value="";ask(v)};
+$("msg").onkeydown=e=>{if(e.key==="Enter")$("send").click()};
+S.g=S.g||[];S.frozen=S.frozen||[];S.lastAward=S.lastAward||0;if(S.freeze==null)S.freeze=1;
+function autoF(){const y=day(1);if(!counted(y)&&counted(day(2))&&S.freeze>0){S.frozen.push(y);S.freeze--;save()}}
+function extra(){moodUI();nextUp();const s=streak();if(s>0&&s%7===0&&S.lastAward!==s){S.freeze=Math.min(2,S.freeze+1);S.lastAward=s;save()}
+ $("fz").textContent=S.freeze;const x=window.XP||0;
+ const B=[["🌱","First quest",S.habits.some(h=>h.done.length)],["🔥","3-day streak",s>=3],["🚀","7-day streak",s>=7],["👑","30-day streak",s>=30],["🧘","3 alone sessions",S.solo.length>=3],["🛡️","Beat an urge",S.urges>=1],["🧠","5 mind workouts",S.g.length>=5],["💎","Level 5",x>=400]];
+ $("bds").innerHTML=B.map(b=>'<div class="bd '+(b[2]?'on':'')+'" title="'+b[1]+'" aria-label="'+b[1]+(b[2]?' earned':' locked')+'">'+b[0]+'</div>').join("")}
+const A=$("arena"),G={};
+function done(game,score,xp,msg){burst();S.g.push({date:T(),game,score,xp});save();render();A.innerHTML='<div style="font-size:44px">🎉</div><b>'+msg+'</b><p style="color:var(--mute)">+'+xp+' XP</p><button class="btn" id="ag">Done</button>';$("ag").onclick=()=>A.classList.add("hide")}
+document.querySelectorAll(".gc").forEach(b=>b.onclick=()=>{clearInterval(window.gt);A.classList.remove("hide");G[b.dataset.g]();A.scrollIntoView({behavior:"smooth"})});
+const QB=[["How long does a habit often take to form, on average?",["About 21 days","Around 2 months","Exactly 7 days"],1],["You missed a day. What helps most?",["Quit and restart later","Get back on track the next day","Punish yourself"],1],["The 2-minute rule says to...",["Work only 2 minutes total","Start with a 2-minute version of the habit","Rest every 2 minutes"],1],["What starts a habit loop?",["A cue","A result","A rest"],0],["Which planet is the largest?",["Saturn","Jupiter","Mars"],1],["How much sleep do most adults need?",["4-5 hours","7-9 hours","10-12 hours"],1],["What is 15% of 200?",["20","30","40"],1],["What does compound growth reward most?",["Consistency over time","One big bet","Luck"],0],["Best move when an urge hits?",["Stay put with your phone","Change your environment and wait it out","Scroll a little"],1],["Which is the largest ocean?",["Atlantic","Pacific","Indian"],1]];
+G.quiz=()=>{const Q=[...QB].sort(()=>Math.random()-.5).slice(0,5);let i=0,sc=0;
+ const show=()=>{if(i>=Q.length)return done("Quiz",sc,sc*10,"You scored "+sc+" out of 5");const q=Q[i];A.innerHTML='<p style="color:var(--mute);margin:0">Question '+(i+1)+' of 5</p><h3 style="margin:6px 0">'+esc(q[0])+'</h3>'+q[1].map((o,k)=>'<button class="btn ghost opt" data-k="'+k+'">'+esc(o)+'</button>').join("");
+  A.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const k=+b.dataset.k;A.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.k===q[2])x.classList.add("ok")});if(k===q[2])sc++;else b.classList.add("no");setTimeout(()=>{i++;show()},900)})};show()};
+G.mem=()=>{const cols=["#5eead4","#a78bfa","#ffb86b","#f472b6"];let seq=[],pos=0,lock=true;
+ A.innerHTML='<b>Memory chain</b><p id="ms" style="color:var(--mute)">Watch, then repeat</p><div class="pads">'+cols.map((c,i)=>'<button class="pad" data-i="'+i+'" style="background:'+c+';color:'+c+'" aria-label="Pad '+(i+1)+'"></button>').join("")+'</div>';
+ const pads=[...A.querySelectorAll(".pad")],wait=ms=>new Promise(r=>setTimeout(r,ms));
+ const flash=async i=>{pads[i].classList.add("lit");await wait(450);pads[i].classList.remove("lit");await wait(200)};
+ const round=async()=>{lock=true;pos=0;seq.push(Math.random()*4|0);$("ms").textContent="Round "+seq.length+": watch";await wait(500);for(const i of seq)await flash(i);$("ms").textContent="Your turn";lock=false};
+ pads.forEach(p=>p.onclick=async()=>{if(lock)return;const i=+p.dataset.i;flash(i);if(i!==seq[pos]){lock=true;const n=seq.length-1;done("Memory",n,n*8+5,"You remembered "+n+" steps");return}pos++;if(pos===seq.length){lock=true;await wait(600);round()}});round()};
+G.math=()=>{let sc=0,left=30,ans;A.innerHTML='<b>Math sprint</b><div class="clock" id="ml">30</div><div style="font-size:32px;font-weight:800" id="mq"></div><input type="text" inputmode="numeric" id="ma" aria-label="Answer" style="margin-top:10px;text-align:center"><p id="msc" style="color:var(--mute)">Score 0</p>';
+ const q=()=>{const a=2+Math.random()*12|0,b=2+Math.random()*12|0,op=["+","-","×"][Math.random()*3|0];ans=op==="+"?a+b:op==="-"?a-b:a*b;$("mq").textContent=a+" "+op+" "+b+" = ?";$("ma").value=""};q();$("ma").focus();
+ window.gt=setInterval(()=>{left--;$("ml").textContent=left;if(left<=0){clearInterval(window.gt);done("Math",sc,sc*3+5,"You solved "+sc+" in 30 seconds")}},1000);
+ $("ma").onkeydown=e=>{if(e.key==="Enter"){if(+$("ma").value===ans){sc++;$("msc").textContent="Score "+sc}q()}}};
+G.word=()=>{const W=["focus","habit","routine","patience","courage","mindful","streak","growth","calm","discipline","resilient","balance"].sort(()=>Math.random()-.5).slice(0,5);let i=0,sc=0;
+ A.innerHTML='<b>Word scramble</b><div class="clock" id="ws" style="letter-spacing:6px"></div><input type="text" id="wa" aria-label="Unscrambled word" style="text-align:center;margin:10px 0" autocapitalize="off"><div class="row"><button class="btn ghost" id="wk" style="flex:1">Skip</button><button class="btn" id="wc" style="flex:1">Check</button></div><p id="wm" style="color:var(--mute)"></p>';
+ const sh=w=>{let t;do{t=[...w].sort(()=>Math.random()-.5).join("")}while(t===w);return t.toUpperCase()};
+ const next=()=>{if(i>=W.length)return done("Words",sc,sc*8+4,"You unscrambled "+sc+" of "+W.length);$("ws").textContent=sh(W[i]);$("wa").value="";$("wm").textContent="Word "+(i+1)+" of "+W.length};
+ const chk=()=>{if($("wa").value.trim().toLowerCase()===W[i]){sc++;i++;next()}else $("wm").textContent="Not quite, try again"};
+ $("wc").onclick=chk;$("wk").onclick=()=>{i++;next()};$("wa").onkeydown=e=>{if(e.key==="Enter")chk()};next()};
+$("rem").onclick=async()=>{const m=$("rmsg"),t=$("rt").value||"20:00";let dl=null;try{dl=await claude.use("downloads")}catch(e){}
+ if(!dl){m.textContent="Saving isn't available here. Set a daily phone alarm for "+t+" called Steady.";return}
+ const ics=buildIcs(t);
+ try{await dl.save({filename:"steady-reminder.ics",data:ics});m.textContent="Open the saved file to add a daily alert to your calendar."}catch(e){m.textContent="Couldn't save the file. Set a daily phone alarm for "+t+" instead."}};
+S.mood=S.mood||{};S.learn=S.learn||{web:0,py:0,safe:0};S.bed=S.bed||"";S.wake=S.wake||"";
+function burst(){const c=["#5eead4","#a78bfa","#ffb86b","#f472b6","#7dd3fc"];for(let i=0;i<18;i++){const d=document.createElement("i");d.className="cf";d.style.cssText="left:50%;top:40%;background:"+c[i%5]+";--x:"+(Math.random()*320-160)+"px;--y:"+(Math.random()*-260+80)+"px";document.body.appendChild(d);setTimeout(()=>d.remove(),1000)}}
+const hm=x=>{const a=x.split(":");return +a[0]*60+ +a[1]};
+function bedState(){if(!S.bed||!S.wake)return"";const n=new Date().getHours()*60+new Date().getMinutes(),b=hm(S.bed),w=hm(S.wake);const asleep=b>w?(n>=b||n<w):(n>=b&&n<w);if(asleep)return"asleep";return (b-n+1440)%1440<=45?"wind":""}
+const MR={"😄":"Love that energy! Let's use it.","🙂":"Steady and good. Keep the rhythm.","😐":"Flat days count too. One tiny quest is enough.","😔":"Sorry it feels heavy. Small steps are plenty today.","😫":"That sounds like a lot. Go easy, and talk to Sprout or someone you trust."};
+function moodUI(){const m=S.mood[T()];document.querySelectorAll("#mood button").forEach(b=>b.classList.toggle("on",b.dataset.m===m));$("mr").textContent=m?MR[m]:""}
+function nextUp(){const n=new Date(),now=n.getHours()*60+n.getMinutes(),t=T();const c=S.habits.filter(h=>h.time&&!h.done.includes(t)).map(h=>({h,m:hm(h.time)})).filter(x=>x.m>=now-30).sort((a,b)=>a.m-b.m)[0];$("nx").style.display=c?"inline-block":"none";if(c)$("nx").textContent="⏰ Up next: "+c.h.name+" at "+c.h.time}
+$("mood").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.mood[T()]=b.dataset.m;save();render()};
+$("mv").onclick=()=>{document.querySelector("nav [data-tab=buddy]").click();ask("Give me a short, honest pep talk for today based on how I feel and my progress.")};
+function sleepUI(){$("bed").value=S.bed;$("wake").value=S.wake;if(S.bed&&S.wake){const d=(hm(S.wake)-hm(S.bed)+1440)%1440;$("sl").textContent="That is "+Math.floor(d/60)+"h "+d%60+"m of sleep. Adults need about 7 to 9 hours."}}
+$("bed").onchange=$("wake").onchange=()=>{S.bed=$("bed").value;S.wake=$("wake").value;save();sleepUI();render()};
+function buildIcs(t){const ds=lk(new Date()).replace(/-/g,"");const ev=(n,tm,d)=>["BEGIN:VEVENT","UID:st"+Math.random().toString(36).slice(2,9)+"@steady","DTSTAMP:"+ds+"T000000","DTSTART:"+ds+"T"+tm.replace(":","")+"00","DURATION:PT10M","RRULE:FREQ=DAILY","SUMMARY:"+n,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+d,"TRIGGER:PT0M","END:VALARM","END:VEVENT"];
+ let L=ev("Steady: one quest with Sprout",t,"Sprout is waiting.");S.habits.filter(h=>h.time).forEach(h=>L.push(...ev(h.name,h.time,"Time for: "+h.name)));if(S.bed)L.push(...ev("Wind down and sleep",S.bed,"Phone away. Sleep is a habit too."));
+ return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Steady//EN",...L,"END:VCALENDAR"].join("\r\n")}
+$("mk").onclick=async()=>{const P=$("plan");P.classList.remove("hide");const a=$("f1").value,b=$("f2").value;if(!a||!b){P.textContent="Pick a start and end time.";return}
+ const t=T(),open=S.habits.filter(h=>!h.done.includes(t)).map(h=>h.name);
+ const local=()=>{const items=[...open.map(x=>"Do: "+x),"Learn: one tech lesson","Mind gym: one game","Alone time: 5 quiet minutes","Break: stretch and water"];const g=m=>String(Math.floor(m/60)%24).padStart(2,"0")+":"+String(m%60).padStart(2,"0");let c=hm(a),e=hm(b),o=[];if(e<=c)e+=1440;for(let i=0;c+25<=e&&i<items.length;i++,c+=30)o.push(g(c)+"  "+items[i]);return o.join("\n")||"That window is too short. Try a longer one."};
+ if(!sample){P.textContent=local();return}
+ P.textContent="Sprout is planning...";
+ try{const r=await sample("You are Sprout, a friendly habit coach. Make a realistic plan for the free window "+a+" to "+b+". Use short lines, each starting with a time, in 25 to 30 minute blocks with breaks. Include these unfinished habits: "+JSON.stringify(open)+", one tech lesson, one brain game, and 5 quiet minutes alone. Bedtime is "+(S.bed||"unset")+". End with one encouraging sentence. No markdown.",{cache:false,onText:({text})=>{P.textContent=text}});P.textContent=r.text}catch(e){P.textContent=local()}};
+const CO=[
+{id:"web",n:"Web basics",e:"🌐",L:[
+["What is HTML?","HTML gives a web page its structure. Tags like <h1> mark a main heading and <p> marks a paragraph.",[["Which tag makes a main heading?",["<h1>","<p>","<img>"],0],["HTML gives a page its...",["Structure","Speed","Password"],0]]],
+["Links and images","The <a href> tag makes a link. The <img src> tag shows a picture.",[["Which tag creates a link?",["<a>","<b>","<br>"],0],["What does src hold?",["The image address","The page colour","A password"],0]]],
+["Styling with CSS","CSS controls colours, fonts and layout. For example, color:red; makes text red.",[["What does CSS control?",["Looks and layout","Databases","Emails"],0],["Which makes text red?",["color:red;","text=red","red:color"],0]]]]},
+{id:"py",n:"Python basics",e:"🐍",L:[
+["Print and variables","print('hi') shows text. A variable stores a value, like age = 20.",[["Which shows text?",["print('hi')","show hi","say('hi')"],0],["age = 20 creates a...",["Variable","Browser","Folder"],0]]],
+["If statements","if lets code make choices, like: if age > 17: print('adult'). The colon and indentation matter.",[["if is used to...",["Make a choice","Repeat forever","Delete files"],0],["What must follow the condition?",["A colon","A comma","A star"],0]]],
+["Loops","A for loop repeats work: for i in range(3): print(i) prints 0, 1 and 2.",[["range(3) gives...",["0, 1, 2","1, 2, 3","3 only"],0],["A loop is for...",["Repeating","Sleeping","Painting"],0]]]]},
+{id:"safe",n:"Online skills",e:"🛡️",L:[
+["Strong passwords","Use long, unique passwords, ideally passphrases, and a password manager.",[["Best password?",["A long unique passphrase","123456","Your name"],0],["Reusing passwords is...",["Risky","Smart","Required"],0]]],
+["Spotting scams","Scams create urgency and ask for codes or money. Pause, verify through official channels and never share OTPs.",[["A scam often creates...",["Urgency","Patience","Silence"],0],["Should you share an OTP?",["Never","If they sound nice","Yes, quickly"],0]]],
+["Using AI well","Give AI clear context, a goal and a format. Then check the answer, because AI can be wrong.",[["A good prompt has...",["Context and a clear goal","Only one word","No detail"],0],["AI answers should be...",["Checked","Always trusted","Ignored"],0]]]]}];
+function renderLearn(){$("cl").innerHTML=CO.map((c,ci)=>{const d=S.learn[c.id]||0;return '<h2>'+c.e+' '+c.n+' <small style="color:var(--mute);font-weight:500">'+d+'/'+c.L.length+'</small></h2><div class="path">'+c.L.map((l,li)=>{const st=li<d?"dn":li===d?"cur":"lk";return '<div class="pn" style="margin-left:'+[0,44,88,44][li%4]+'px"><button class="nd '+st+'" data-c="'+ci+'" data-l="'+li+'" '+(st==="lk"?"disabled":"")+' aria-label="'+esc(l[0])+'">'+(st==="dn"?"✓":st==="lk"?"🔒":"▶")+'</button><span>'+esc(l[0])+'</span></div>'}).join("")+'</div>'}).join("")}
+$("cl").onclick=e=>{const b=e.target.closest(".nd");if(b)lesson(+b.dataset.c,+b.dataset.l)};
+function lesson(ci,li){const c=CO[ci],l=c.L[li],La=$("la");La.classList.remove("hide");let k=0,ok=0;
+ La.innerHTML='<b>'+esc(l[0])+'</b><p style="text-align:left">'+esc(l[1])+'</p><button class="btn" id="lgo">Start quiz</button>';La.scrollIntoView({behavior:"smooth"});
+ const q=()=>{if(k>=l[2].length){const pass=ok===l[2].length;
+   if(pass){burst();if((S.learn[c.id]||0)===li){S.learn[c.id]=li+1;S.g.push({date:T(),game:"Learn",score:1,xp:15})}save();render();renderLearn();La.innerHTML='<div style="font-size:44px">🎓</div><b>Lesson complete</b><p style="color:var(--mute)">+15 XP</p><button class="btn" id="lx">Continue</button>'}
+   else La.innerHTML='<b>Almost!</b><p style="color:var(--mute)">You got '+ok+' of '+l[2].length+'. Read the lesson again and retry.</p><button class="btn" id="lx">Try again</button>';
+   $("lx").onclick=()=>pass?La.classList.add("hide"):lesson(ci,li);return}
+  const Q=l[2][k],o=Q[1].map((t,i)=>({t,c:i===Q[2]})).sort(()=>Math.random()-.5);
+  La.innerHTML='<p style="color:var(--mute);margin:0">Question '+(k+1)+' of '+l[2].length+'</p><h3 style="margin:6px 0">'+esc(Q[0])+'</h3>'+o.map((x,i)=>'<button class="btn ghost opt" data-i="'+i+'">'+esc(x.t)+'</button>').join("");
+  La.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const x=o[+b.dataset.i];La.querySelectorAll(".opt").forEach(y=>{y.disabled=true;if(o[+y.dataset.i].c)y.classList.add("ok")});if(x.c)ok++;else b.classList.add("no");setTimeout(()=>{k++;q()},900)})};
+ $("lgo").onclick=q}
+S.goals=S.goals||[];S.jr=S.jr||[];S.cur=S.cur||"$";S.theme=S.theme||"purple";S.pv=S.pv||"";S.tone=S.tone||"";
+document.documentElement.setAttribute("data-theme",S.theme);
+const SUB=["plan","games","shield","style"];
+function go(n){document.querySelectorAll("nav button,.tab").forEach(x=>x.classList.remove("on"));$("t-"+n).classList.add("on");const nb=document.querySelector('nav [data-tab="'+(SUB.includes(n)?"more":n)+'"]');nb&&nb.classList.add("on");$("bk").classList.toggle("hide",!SUB.includes(n));window.scrollTo(0,0)}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));$("bk").onclick=()=>go("more");
+const persona=()=>({feminine:"feminine",masculine:"masculine",neutral:"gender-neutral"})[S.pv]||"gender-neutral";
+const TN={gentle:"gentle and soothing",direct:"direct and steady",playful:"light and playful"};
+function chipsUI(){document.querySelectorAll("#sw button").forEach(b=>b.classList.toggle("on",b.dataset.th===S.theme));document.querySelectorAll("#pv button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.pv));document.querySelectorAll("#tn button").forEach(b=>b.classList.toggle("on",b.dataset.t===S.tone))}
+$("setbox").onclick=e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.th){S.theme=b.dataset.th;document.documentElement.setAttribute("data-theme",S.theme)}if(b.dataset.v)S.pv=b.dataset.v;if(b.dataset.t)S.tone=b.dataset.t;save();chipsUI()};
+if(!S.ob){$("ob").classList.remove("hide");$("obs").appendChild($("setbox"))}
+$("obgo").onclick=()=>{S.ob=1;save();$("ss").appendChild($("setbox"));$("ob").classList.add("hide")};
+chipsUI();
+const fm=n=>S.cur+Number(n).toLocaleString(undefined,{maximumFractionDigits:2});
+const money=()=>S.goals.map(g=>g.n+": "+Math.round(g.s/g.t*100)+"% of target").join("; ")||"no goals yet";
+function renderMoney(){$("cur").value=S.cur;$("shr").checked=!!S.share;const sv=S.goals.reduce((a,g)=>a+g.s,0);
+ $("tot").textContent=S.goals.length?"You have set aside "+fm(sv)+" across "+S.goals.length+" goal"+(S.goals.length>1?"s":"")+". Steady progress builds security.":"Start with one small goal. Paying yourself first is a strong habit.";
+ $("goals").innerHTML=S.goals.map(g=>{const p=Math.min(100,Math.round(g.s/g.t*100));return '<div class="h" style="display:block;cursor:default"><div class="row" style="justify-content:space-between"><b>'+esc(g.n)+'</b><button data-gd="'+g.id+'" aria-label="Delete goal" style="background:none;border:0;color:var(--mute);cursor:pointer">✕</button></div><div class="pb"><i style="width:'+p+'%"></i></div><small style="color:var(--mute)">'+fm(g.s)+' of '+fm(g.t)+' ('+p+'%)</small><div class="row" style="margin-top:8px"><input type="text" inputmode="decimal" data-a="'+g.id+'" placeholder="Amount" aria-label="Amount"><button class="btn" data-dp="'+g.id+'">Add</button><button class="btn ghost" data-wd="'+g.id+'">Take out</button></div></div>'}).join("")}
+$("goals").onclick=e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+ if(d.gd)S.goals=S.goals.filter(g=>g.id!==d.gd);
+ else{const id=d.dp||d.wd;if(!id)return;const g=S.goals.find(x=>x.id===id),v=parseFloat(String(document.querySelector('[data-a="'+id+'"]').value).replace(/,/g,""));if(!(v>0))return;if(d.dp){const was=g.s>=g.t;g.s+=v;if(!was&&g.s>=g.t)burst()}else g.s=Math.max(0,g.s-v)}
+ save();renderMoney()};
+$("ga").onclick=()=>{const n=$("gn").value.trim(),t=parseFloat(String($("gt").value).replace(/,/g,""));if(!n||!(t>0))return;S.goals.push({id:"g"+Date.now(),n,t,s:0});$("gn").value="";$("gt").value="";save();renderMoney()};
+$("cur").onchange=()=>{S.cur=$("cur").value;save();renderMoney()};$("shr").onchange=()=>{S.share=$("shr").checked;save()};
+const JP=["What is one thing I handled well today?","What am I carrying that I can put down tonight?","What am I grateful for right now?","What do I need more of this week?","What would I say to a friend feeling this way?","What is one small thing that would make tomorrow easier?"];
+function renderJ(){$("jl").innerHTML=S.jr.slice(-3).reverse().map(x=>'<div class="arena" style="text-align:left;margin-top:8px"><small style="color:var(--mute)">'+x.d+'</small><br>'+esc(x.t)+'</div>').join("")}
+$("js").onclick=()=>{const v=$("jt").value.trim();if(!v)return;S.jr.push({d:T(),t:v});S.jr=S.jr.slice(-20);$("jt").value="";save();renderJ()};
+$("jp").onclick=()=>{$("jq").textContent=JP[Math.random()*JP.length|0];$("jt").focus()};
+let bo=false;const wt=ms=>new Promise(r=>setTimeout(r,ms));
+$("bs").onclick=async()=>{if(bo){bo=false;return}bo=true;$("bs").textContent="Stop";const br=$("br");
+ for(let i=0;i<4&&bo;i++){$("bt").textContent="Breathe in";br.style.transition="transform 4s ease-in-out";br.style.transform="scale(1.5)";await wt(4000);if(!bo)break;$("bt").textContent="Hold";await wt(4000);if(!bo)break;$("bt").textContent="Breathe out";br.style.transition="transform 6s ease-in-out";br.style.transform="scale(1)";await wt(6000)}
+ bo=false;br.style.transform="scale(1)";$("bt").textContent="Well done. Notice how you feel.";$("bs").textContent="Breathe with me"};
+let ec=0;$("er").onclick=()=>{if(!ec){ec=1;$("er").textContent="Tap again to erase everything";setTimeout(()=>{ec=0;$("er").textContent="Erase all my data"},4000);return}try{localStorage.removeItem(K)}catch(e){}location.reload()};
+const LOGO="";$("brand").innerHTML=LOGO?'<img src="'+LOGO+'" alt="Steady logo" style="height:30px;border-radius:8px">':"Steady";
+
+renderMoney();renderJ();
+renderLearn();sleepUI();
+autoF();paint();render();
+</script></body></html>
